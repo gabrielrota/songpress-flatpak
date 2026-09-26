@@ -946,7 +946,13 @@ appstreamcli validate io.github.lallulli.Songpress.metainfo.xml
 # Validazione del file .desktop
 desktop-file-validate io.github.lallulli.Songpress.desktop
 
+# Build di verifica e controllo che la licenza upstream sia inclusa
+flatpak-builder --disable-rofiles-fuse --force-clean --repo=repo build-dir io.github.lallulli.Songpress.yml
+test -s build-dir/files/share/licenses/io.github.lallulli.Songpress/license.txt
+
 ```
+
+Dopo ogni modifica al metainfo, inclusa la licenza, rieseguire `appstreamcli validate` e la build qui sopra: la build aggiorna i metadati esportati e ricrea il repository. Se si distribuisce un bundle, ricrearlo dopo la build con `flatpak build-bundle repo Songpress.flatpak io.github.lallulli.Songpress`. `desktop-file-validate` va ripetuto quando cambia il file `.desktop`.
 
 ---
 
@@ -970,7 +976,7 @@ Se desideri distribuire l'applicazione direttamente come file scaricabile da all
 
 1. Compila l'applicazione esportandola in un repository locale OSTree:
 ```bash
-flatpak-builder --force-clean --repo=repo build-dir io.github.lallulli.Songpress.yml
+flatpak-builder --disable-rofiles-fuse --force-clean --repo=repo build-dir io.github.lallulli.Songpress.yml
 
 ```
 
@@ -991,10 +997,13 @@ flatpak install Songpress.flatpak
 ```
 
 
+```bash
 
+appstreamcli validate io.github.lallulli.Songpress.metainfo.xml
+flatpak-builder --disable-rofiles-fuse --force-clean --repo=repo build-dir io.github.lallulli.Songpress.yml
+test -s build-dir/files/share/licenses/io.github.lallulli.Songpress/license.txt
 
-
-
+```
 
 
 

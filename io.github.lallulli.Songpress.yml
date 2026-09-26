@@ -23,6 +23,7 @@ modules:
       - install -Dm644 io.github.lallulli.Songpress.desktop /app/share/applications/io.github.lallulli.Songpress.desktop
       # Installa l'icona (sostituisci "songpress.png" con il percorso/nome reale della tua icona)
       - install -Dm644 songpress.png /app/share/icons/hicolor/128x128/apps/io.github.lallulli.Songpress.png
+      - install -Dm644 songpress-license.txt /app/share/licenses/io.github.lallulli.Songpress/license.txt
     post-install:
       - install -Dm644 io.github.lallulli.Songpress.metainfo.xml /app/share/metainfo/io.github.lallulli.Songpress.metainfo.xml
     sources:
@@ -32,3 +33,7 @@ modules:
         path: songpress.png # Modifica se l'icona ha un nome/estensione diversa
       - type: file
         path: io.github.lallulli.Songpress.metainfo.xml
+      - type: file
+        url: https://raw.githubusercontent.com/lallulli/songpress/1.9.0/license.txt
+        sha256: 90a2516e0a189968a89b2fdd21e0ac17c96be36ed6a53d2e49cd7f4e503a6c3e
+        dest-filename: songpress-license.txt

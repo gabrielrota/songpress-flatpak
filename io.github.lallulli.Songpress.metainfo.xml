@@ -2,9 +2,12 @@
 <component type="desktop-application">
   <id>io.github.lallulli.Songpress</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-3.0-or-later</project_license>
+  <project_license>GPL-2.0-only</project_license>
   <name>Songpress</name>
   <summary>Edit and format songs with chords</summary>
+  <developer id="io.github.lallulli">
+    <name>Luca Allulli</name>
+  </developer>
 
   <description>
     <p>
@@ -13,6 +16,7 @@
   </description>
 
   <launchable type="desktop-id">io.github.lallulli.Songpress.desktop</launchable>
+  <content_rating type="oars-1.1" />
 
   <url type="homepage">https://github.com/lallulli/songpress</url>
 </component>
