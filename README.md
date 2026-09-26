@@ -9,6 +9,7 @@ Manifest Flatpak comunitario per Songpress, pensato per la revisione dei maintai
 - Runtime e SDK: Freedesktop `25.08`
 - Licenza Songpress: GPL-2.0-only
 - Build verificata su Linux con `flatpak-builder`
+- Workaround temporaneo: accesso a `~/.songpress` per salvare le preferenze; aprire una segnalazione upstream per usare XDG e rimuovere questo permesso.
 
 ## File del progetto
 
