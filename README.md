@@ -13,6 +13,20 @@ flatpak run org.flatpak.Builder --version
 Output ottenuto:
 flatpak-builder-1.4.9
 
+## Scelta dell'ambiente di build
+
+Per build, installazione locale ed esportazione del bundle, usare `flatpak-builder` installato sull'host:
+
+```bash
+sudo apt update
+sudo apt install flatpak-builder
+flatpak-builder --version
+```
+
+Eseguire questi comandi dal terminale host, nella directory del progetto. In questo modo `flatpak-builder` può integrarsi direttamente con Flatpak dell'utente per `--user --install` e per creare un repository di rilascio.
+
+Usare invece `org.flatpak.Builder` per gli strumenti isolati, ad esempio `flatpak-pip-generator`. Non è necessario entrare nella sua shell prima di lanciare i comandi di build sull'host.
+
 2. Accesso al runtime di build
 flatpak run --command=bash org.flatpak.Builder
 
@@ -102,7 +116,7 @@ modules:
 
 
 7. Primo tentativo di build
-Dalla directory del progetto:
+Dalla directory del progetto, in un terminale host:
 flatpak-builder --disable-rofiles-fuse --force-clean build-dir io.github.lallulli.Songpress.yml
 
 Possibili esiti:
@@ -185,7 +199,7 @@ Se vuoi distribuire l'applicazione su altre macchine o condividerla, puoi genera
 
 ```bash
 # 1. Esporta la build in un repository temporaneo
-flatpak-builder --force-clean --repo=repo build-dir io.github.lallulli.Songpress.yml
+flatpak-builder --disable-rofiles-fuse --force-clean --repo=repo build-dir io.github.lallulli.Songpress.yml
 
 # 2. Crea il file .flatpak pronto da distribuire
 flatpak build-bundle repo Songpress.flatpak io.github.lallulli.Songpress
@@ -486,37 +500,17 @@ flatpak run io.github.lallulli.Songpress
 
 ---
 
-### Opzione B: Rientra nel container `org.flatpak.Builder` *solo* per la build
+### Opzione B: usare il container `org.flatpak.Builder`
 
-Se preferisci non installare nulla con `sudo`, puoi fare la build dentro il container Flatpak e poi eseguire l'app dal tuo sistema host.
+Il container resta utile per eseguire strumenti isolati come `flatpak-pip-generator`. Per build, installazione e creazione del bundle, seguire invece l'opzione A ed eseguire `flatpak-builder` dall'host: evita problemi di integrazione con Flatpak e con l'installazione utente.
 
-1. **Rientra nel container:**
+Per generare o aggiornare le dipendenze Python, aprire la shell isolata:
+
 ```bash
 flatpak run --command=bash org.flatpak.Builder
-
 ```
 
-
-2. **Spostati nella cartella ed esegui la build/installazione:**
-```bash
-cd ~/songpress-flatpak
-flatpak-builder --disable-rofiles-fuse --force-clean --user --install build-dir io.github.lallulli.Songpress.yml
-
-```
-
-
-3. **Esci dal container:**
-```bash
-exit
-
-```
-
-
-4. **Avvia l'app direttamente dal tuo sistema:**
-```bash
-flatpak run io.github.lallulli.Songpress
-
-```
+Per compilare e installare l'app, uscire dalla shell con `exit` e usare i comandi dell'opzione A dal terminale host.
 
 
 
@@ -572,7 +566,7 @@ modules:
 
 ### 2. Esegui la nuova build veloce
 
-Rimani dentro il container `org.flatpak.Builder` (oppure sul tuo host se hai installato `flatpak-builder`) ed esegui la build pulita:
+Dal terminale host, nella directory del progetto, esegui la build pulita:
 
 ```bash
 flatpak-builder --disable-rofiles-fuse --force-clean --user --install build-dir io.github.lallulli.Songpress.yml
@@ -941,13 +935,13 @@ install -Dm644 io.github.lallulli.Songpress.metainfo.xml /app/share/metainfo/io.
 
 ---
 
-### 2. Validare il manifest con `flatpak-builder` ed `appstream-util`
+### 2. Validare il manifest con `flatpak-builder` ed `appstreamcli`
 
 Prima di inviare l'app, è bene verificare che rispetti le linee guida e gli standard di sicurezza di Flatpak:
 
 ```bash
 # Validazione del file metainfo AppStream
-appstream-util validate io.github.lallulli.Songpress.metainfo.xml
+appstreamcli validate io.github.lallulli.Songpress.metainfo.xml
 
 # Validazione del file .desktop
 desktop-file-validate io.github.lallulli.Songpress.desktop
