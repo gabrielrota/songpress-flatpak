@@ -13,7 +13,7 @@ finish-args:
 
 modules:
   # Includi il file generato da flatpak-pip-generator
-  - python3-modules.json
+  - python3-songpress.json
 
   # Modulo per installare il file .desktop e l'icona dell'applicazione
   - name: songpress-desktop-integration

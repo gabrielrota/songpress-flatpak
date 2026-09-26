@@ -13,7 +13,7 @@ Manifest Flatpak comunitario per Songpress, pensato per la revisione dei maintai
 ## File del progetto
 
 - `io.github.lallulli.Songpress.yml`: manifest Flatpak
-- `python3-modules.json`: Songpress, pybind11 e dipendenze Python con sorgenti e hash
+- `python3-songpress.json`: Songpress, pybind11 e dipendenze Python con sorgenti e hash
 - `io.github.lallulli.Songpress.desktop`: launcher
 - `io.github.lallulli.Songpress.metainfo.xml`: metadati AppStream
 - `songpress.png`: icona installata dall'app
@@ -36,13 +36,13 @@ I comandi di build e installazione vanno lanciati dall'host, nella directory del
 
 ## Dipendenze Python
 
-`python3-modules.json` è il manifest combinato generato da `flatpak-pip-generator`; contiene già sia `pybind11` sia `songpress`. I due manifest separati non servono.
+`python3-songpress.json` è il manifest combinato generato da `flatpak-pip-generator`; contiene già sia `pybind11` sia `songpress`. I due manifest separati non servono.
 
 Per rigenerarlo dopo un aggiornamento delle dipendenze:
 
 ```bash
 flatpak run --command=flatpak-pip-generator org.flatpak.Builder \
-  --output=python3-modules.json pybind11 songpress
+  --output=python3-songpress.json pybind11 songpress
 ```
 
 Rivedere il diff generato prima di includerlo: la rigenerazione può aggiornare versioni e hash delle dipendenze.
@@ -71,7 +71,7 @@ flatpak run io.github.lallulli.Songpress
 
 Dopo una modifica al metainfo, rieseguire `appstreamcli validate` e la build. Dopo una modifica al launcher, rieseguire `desktop-file-validate` e la build.
 
-Il metainfo non contiene screenshot al momento. Aggiungerne uno reale dell'app prima di una submission a uno store, verificando che l'immagine sia pubblicamente raggiungibile e che la validazione passi.
+Il metainfo usa uno screenshot della documentazione upstream, con URL fissato a un commit per evitare che l'immagine cambi senza aggiornare il pacchetto.
 
 ## Licenze
 

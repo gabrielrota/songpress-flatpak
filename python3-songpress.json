@@ -1,5 +1,5 @@
 {
-    "name": "python3-modules",
+    "name": "python3-songpress",
     "buildsystem": "simple",
     "build-commands": [],
     "modules": [

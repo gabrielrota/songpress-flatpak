@@ -18,5 +18,12 @@
   <launchable type="desktop-id">io.github.lallulli.Songpress.desktop</launchable>
   <content_rating type="oars-1.1" />
 
+  <screenshots>
+    <screenshot type="default">
+      <caption>Interfaccia principale di Songpress</caption>
+      <image>https://raw.githubusercontent.com/lallulli/songpress/30cee46993db8e17312d4941fc960307fc9d87e9/docs/assets/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+
   <url type="homepage">https://github.com/lallulli/songpress</url>
 </component>
