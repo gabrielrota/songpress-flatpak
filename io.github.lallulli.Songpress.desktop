@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Songpress
+Comment=Edit and format songs with chords
+Exec=songpress
+Icon=io.github.lallulli.Songpress
+Terminal=false
+Categories=AudioVideo;Audio;

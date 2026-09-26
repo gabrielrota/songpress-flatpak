@@ -14,3 +14,17 @@ finish-args:
 modules:
   # Includi il file generato da flatpak-pip-generator
   - python3-modules.json
+
+  # Modulo per installare il file .desktop e l'icona dell'applicazione
+  - name: songpress-desktop-integration
+    buildsystem: simple
+    build-commands:
+      # Installa il file .desktop
+      - install -Dm644 io.github.lallulli.Songpress.desktop /app/share/applications/io.github.lallulli.Songpress.desktop
+      # Installa l'icona (sostituisci "songpress.png" con il percorso/nome reale della tua icona)
+      - install -Dm644 songpress.png /app/share/icons/hicolor/128x128/apps/io.github.lallulli.Songpress.png
+    sources:
+      - type: file
+        path: io.github.lallulli.Songpress.desktop
+      - type: file
+        path: songpress.png # Modifica se l'icona ha un nome/estensione diversa
