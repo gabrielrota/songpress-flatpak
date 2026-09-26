@@ -2,10 +2,18 @@ app-id: io.github.lallulli.Songpress
 
 runtime: org.freedesktop.Platform
 runtime-version: "25.08"
-
 sdk: org.freedesktop.Sdk
-
 command: songpress
+
+finish-args:
+  # Permessi per l'interfaccia grafica (X11 e Wayland)
+  - --socket=x11
+  - --socket=fallback-x11
+  - --socket=wayland
+  # Abilita l'accelerazione grafica (se necessaria)
+  - --device=dri
+  # Permette di mostrare le notifiche di sistema (opzionale)
+  - --talk-name=org.freedesktop.Notifications
 
 modules:
   - python3-pybind11.json
