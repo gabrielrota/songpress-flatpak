@@ -130,7 +130,9 @@ Stato attuale
 
 - [] 2026-07-26 10:18 - la build è troppo pesante perché ricompila tutto pybind11 va provato quando consigliato da Gemini
 ``` bash
+flatpak run --command=bash org.flatpak.Builder
 flatpak-pip-generator pybind11 songpress
+exit
 
 ```
 
@@ -530,5 +532,71 @@ flatpak run io.github.lallulli.Songpress
 
 
 
+
+
+Ottimo che l'applicazione ora funzioni!
+
+Ora che hai generato `python3-modules.json` tramite `flatpak-pip-generator`, l'obiettivo è sostituire la compilazione da sorgente con i **pacchetti wheel (.whl) o moduli precompilati**, velocizzando enormemente le build successive.
+
+Ecco come integrare il nuovo file ed eliminare le parti lente:
+
+---
+
+### 1. Sostituisci i moduli nel file `io.github.lallulli.Songpress.yml`
+
+Apri il file manifest `io.github.lallulli.Songpress.yml` e aggiorna la sezione `modules`:
+
+```yaml
+app-id: io.github.lallulli.Songpress
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+command: songpress
+
+finish-args:
+  - --socket=x11
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --talk-name=org.freedesktop.Notifications
+
+modules:
+  # Includi il file generato da flatpak-pip-generator
+  - python3-modules.json
+
+```
+
+> **Nota:** Rimuovi `- python3-pybind11.json` e `- python3-songpress.json` e usa solo `- python3-modules.json` (che ora gestisce sia `pybind11` sia `songpress` e le loro dipendenze).
+
+---
+
+### 2. Esegui la nuova build veloce
+
+Rimani dentro il container `org.flatpak.Builder` (oppure sul tuo host se hai installato `flatpak-builder`) ed esegui la build pulita:
+
+```bash
+flatpak-builder --disable-rofiles-fuse --force-clean --user --install build-dir io.github.lallulli.Songpress.yml
+
+```
+
+Noterai che la build sarà **molto più rapida**, poiché `flatpak-builder` non compilerà più i file C++ da zero ma installerà direttamente le dipendenze Python già pronte e scaricate da PyPI.
+
+---
+
+### 3. Verifica il funzionamento
+
+Esci dall'ambiente `org.flatpak.Builder` (se stai usando il container):
+
+```bash
+exit
+
+```
+
+E lancia l'applicazione per verificare che si avvii correttamente con i nuovi pacchetti installati:
+
+```bash
+flatpak run io.github.lallulli.Songpress
+
+```
 
 
